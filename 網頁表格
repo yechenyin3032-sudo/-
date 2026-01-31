@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipe Monitor Pro</title>
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #1c1e21;
+            --text-sub: #606770;
+            --primary-blue: #2e69ff;
+            --accent-red: #fb4b4b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 即時數據樣式 */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .data-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .data-label { font-size: 13px; color: var(--text-sub); }
+        .data-value { font-size: 20px; font-weight: bold; margin-top: 5px; }
+        .unit { font-size: 12px; margin-left: 4px; }
+
+        /* 判斷基準樣式 */
+        .logic-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .logic-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 狀態顯示 */
+        .status-box {
+            text-align: center;
+            padding: 15px;
+            background: #e7f3ff;
+            color: var(--primary-blue);
+            border-radius: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2 style="font-size: 20px;">🌊 Pipe Monitor Pro</h2>
+        <span style="font-size: 12px; color: #999;">未連線</span>
+    </div>
+
+    <div class="card">
+        <div class="card-title">📊 環境數據</div>
+        <div class="data-grid">
+            <div class="data-item">
+                <div class="data-label">水位高度</div>
+                <div class="data-value">--<span class="unit">cm</span></div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">理想流速</div>
+                <div class="data-value">--<span class="unit">cm/min</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">⚙️ 判斷基準</div>
+        <ul class="logic-list">
+            <li><span>水位判斷</span> <strong>≥ 1/3 總高</strong></li>
+            <li><span>流速判斷</span> <strong>4800 ~ 18000</strong></li>
+            <li><span>次數條件</span> <strong>5min / 3次</strong></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-title">🚨 系統狀態</div>
+        <div class="status-box">偵測系統待機中</div>
+    </div>
+</div>
+
+</body>
+</html>
