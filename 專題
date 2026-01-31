@@ -1,0 +1,61 @@
+index.html
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>堵塞判斷表格</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #eee;
+        }
+        .blocked {
+            background-color: #ffcccc;
+        }
+        .normal {
+            background-color: #ccffcc;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">堵塞判斷資料表</h2>
+
+<table>
+    <tr>
+        <th>時間</th>
+        <th>總高</th>
+        <th>水位高度</th>
+        <th>流速 (cm/min)</th>
+        <th>5分鐘累積次數</th>
+        <th>判斷結果</th>
+    </tr>
+    <tr class="blocked">
+        <td>10:00</td>
+        <td>300</td>
+        <td>120</td>
+        <td>10000</td>
+        <td>3</td>
+        <td>堵塞</td>
+    </tr>
+    <tr class="normal">
+        <td>10:05</td>
+        <td>300</td>
+        <td>80</td>
+        <td>6000</td>
+        <td>1</td>
+        <td>沒堵塞</td>
+    </tr>
+</table>
+
+</body>
+</html>
