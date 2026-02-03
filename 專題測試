@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管路監測 Pro (遠端雲端版)</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+        :root { --bg: #f0f2f5; --card: #fff; --danger: #fb4b4b; --warning: #fca130; --success: #2ecc71; }
+        body { font-family: sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .container { width: 100%; max-width: 450px; }
+        .card { background: var(--card); border-radius: 16px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .data-item { background: #f8f9fa; padding: 15px; border-radius: 12px; text-align: center; }
+        .val-box { font-size: 26px; font-weight: bold; margin-top: 5px; display: flex; align-items: baseline; justify-content: center; gap: 4px; }
+        .status-box { text-align: center; padding: 20px; border-radius: 12px; font-weight: bold; font-size: 20px; border: 2px solid #ddd; transition: 0.3s; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 style="text-align: center;">🌊 遠端管路監控</h2>
+    
+    <div class="card">
+        <div class="data-grid">
+            <div class="data-item">
+                <div style="color:#666; font-size:13px;">水位高度</div>
+                <div class="val-box"><span id="water-level-val">--</span><span style="font-size:14px; font-weight:normal;">cm</span></div>
+            </div>
+            <div class="data-item">
+                <div style="color:#666; font-size:13px;">理想流速</div>
+                <div class="val-box"><span id="flow-rate-val">--</span><span style="font-size:14px; font-weight:normal;">m/s</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="status-display" class="status-box">📡 雲端連線中...</div>
+</div>
+
+<script>
+    // 這裡填入你剛剛找的資訊
+    const firebaseConfig = {
+        apiKey: "這裡貼上你的API金鑰",
+        databaseURL: "這裡貼上你的資料庫通訊網址"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    database.ref('/').on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            const water = data.waterLevel || 0;
+            const flow = data.flowRate || 0;
+            const flowCmMin = flow * 6000;
+
+            document.getElementById("water-level-val").innerText = water.toFixed(1);
+            document.getElementById("flow-rate-val").innerText = flow.toFixed(2);
+
+            const statusBox = document.getElementById("status-display");
+            const isBlocked = (flowCmMin < 4800) && (water >= 16.6);
+            const isTooFast = (flowCmMin > 18000);
+
+            if (isBlocked) {
+                statusBox.innerText = "❌ 偵測到管路堵塞！";
+                statusBox.style.cssText = "color:white; background:var(--danger); border-color:var(--danger);";
+            } else if (isTooFast) {
+                statusBox.innerText = "⚠️ 注意：水流過於湍急";
+                statusBox.style.cssText = "color:white; background:var(--warning); border-color:var(--warning);";
+            } else {
+                statusBox.innerText = "✅ 雲端監測正常";
+                statusBox.style.cssText = "color:white; background:var(--success); border-color:var(--success);";
+            }
+        }
+    });
+</script>
+</body>
+</html>
